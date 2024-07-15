@@ -12,7 +12,7 @@ entity angle_to_lookat_relative is
         lookat_h_rel: out vec2i_t
     );
 end entity;
-
+-- 对angle（三维角度）的两个角度分量分别进行角度-坐标转换，再根据转换后的坐标得到angle对应的三维坐标和二维投影的坐标
 
 architecture Behavioral of angle_to_lookat_relative is
     component angle_to_coord is
