@@ -7,21 +7,22 @@ use work.types.all;
 
 entity angle_to_coord is
     port (
-        angle: in int;
-        coord: out vec2i_t
+        angle: in int; -- 输入整数角度
+        coord: out vec2i_t -- 输出二维整数向量，即角度所对应坐标
     );
 end entity;
-
+-- 通过一系列将输入角度化约为0到45度角（以便进行角度和坐标的映射），同时标记x、y的正负和x、y是否交换
+-- 之后再根据映射出的坐标、三个标记给出最终坐标
 
 architecture Behavioral of angle_to_coord is
-    signal x_mapped, y_mapped: int;   -- [0, ANGLE_EIGHTH], i.e. [0, 158]
-    signal x_inverse, y_inverse, xy_inverse: std_logic;
-    signal coord_rev: vec2i_t;
+    signal x_mapped, y_mapped: int;   -- [0, ANGLE_EIGHTH], i.e. [0, 158] 映射后的x、y坐标； ANGLE_EIGHTH=158对应45度
+    signal x_inverse, y_inverse, xy_inverse: std_logic; -- 分别用于标记x正负、y正负、xy交换
+    signal coord_rev: vec2i_t; -- 反转后的坐标
 begin
     process (angle) is
         variable ang: int;
     begin
-        x_inverse <= '0';
+        x_inverse <= '0'; -- 初始化
         y_inverse <= '0';
         xy_inverse <= '0';
         ang := angle mod ANGLE_MODULO;
@@ -37,7 +38,7 @@ begin
             ang := ANGLE_QUARTER - ang;
             xy_inverse <= '1';
         end if;
-        y_mapped <= ang;
+        y_mapped <= ang;-- 将ang赋给y，之后再根据y来对应x
     end process;
 
     x_mapped <=
