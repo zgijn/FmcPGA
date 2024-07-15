@@ -8,7 +8,7 @@ use work.types.all;
 entity viewport_scanner is
     port (
         clk_ppl, rst, enable: in std_logic;
-        fragment_uv: out vec2i_t
+        fragment_uv: out vec2i_t -- scan 320*240 times, from left to right, from upside to downside
     );
 end entity;
 
